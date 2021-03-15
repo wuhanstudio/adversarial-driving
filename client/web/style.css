@@ -1,0 +1,59 @@
+#origin {
+    width: 50%;
+}
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+/* toggle switches with bootstrap default colors */
+.custom-control-input-success:checked ~ .custom-control-label::before {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.custom-control-input-danger:checked ~ .custom-control-label::before {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.custom-control-input-warning:checked ~ .custom-control-label::before {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.custom-control-input-info:checked ~ .custom-control-label::before {
+    background-color: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+}
+
+/* Large toggl switches */
+.custom-switch-lg .custom-control-label::before {
+    left: -2.25rem;
+    width: 3rem;
+    border-radius: 1.5rem;
+}
+
+.custom-switch-lg .custom-control-label::after {
+    top: calc(.25rem + 3px);
+    left: calc(-2.25rem + 4px);
+    width: calc(1.5rem - 6px);
+    height: calc(1.5rem - 6px);
+    border-radius: 1.5rem;
+}
+
+.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+    transform: translateX(1.4rem);
+}
+
+.custom-switch-lg .custom-control-label::before {
+    height: 1.5rem;
+}
+
+.custom-switch-lg .custom-control-label {
+    padding-left: 1.5rem;
+    line-height: 1.7rem;
+}
