@@ -26,7 +26,11 @@
 
 This simulator was built for Udacity's Self-Driving Car Nanodegree, and it's available [here](https://github.com/udacity/self-driving-car-sim).
 
-If you use windows, please download **term1-simulator-windows.zip**, and open **beta_simulator.exe**.
+- Windows: please download **term1-simulator-windows.zip**, and open **beta_simulator.exe**.
+
+- Linux: please download **term1-simulator-linux.zip**, and open **beta_simulator.x86_64**.
+
+- Mac: please download **term1-simulator-mac.zip**, and install **beta_simulator_mac.app**.
 
 <img src="./doc/simulator.png"  width="50%"/>
 
@@ -43,18 +47,21 @@ $ python drive.py model.h5
 
 #### 3. Setup the browser
 
-If you use windows, click on **client/client.exe** which is a golang web server.  http://localhost:3333/
+This is just a website, your can use any web server, just serve all the content under **client/web**.
 
-<img src="./doc/client.png"  width="100%"/>
+If you use windows, click on **client/client.exe**. It's a single executable that packages everything.
 
-This server can be built with:
+For Linux and Mac, or other Unix, the server can be built with:
 
 ```
 go get github.com/gobuffalo/packr
 packr build
 ```
 
-If you'd like to use your own web server, just serve all the content under **client/web**.
+
+The web page will be available at: http://localhost:3333/
+
+<img src="./doc/client.png"  width="100%"/>
 
 That's it!
 
@@ -66,7 +73,7 @@ That's it!
 
 The system is scalable to include more attacks for further research. For example, if you would like to add an attack that increases each pixel by one. (one-pixel-attack)
 
-First, you can add the attack option [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/client/web/index.html#L67) inside **client/web/index.html** by changing the `<input id="" value="one_pixel">` and `<label for="">`:
+**First**, you can add the attack option [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/client/web/index.html#L67) inside **client/web/index.html** by changing the `<input id="" value="one_pixel">` and `<label for="">`:
 
 ```html
 <div class="form-check">
@@ -83,7 +90,7 @@ Then you can find a new option on the website :
 
 ![](doc/one-pixel-web.png)
 
-Second and last, you can implement your attack [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/model/adversarial_driving.py#L96) in `model/adversarial_driving.py` :
+**Second and last**, you can implement your attack [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/model/adversarial_driving.py#L96) in `model/adversarial_driving.py`.
 
 ```
 # One-Pixel Attack
@@ -95,9 +102,7 @@ if self.attack_type == "one_pixel":
     return noise
 ```
 
-Congratulations, now open the simulator and python server, you should see the outcome of the new attack on the website  http://localhost:3333/.
-
-Even though the one-pixel attack should have less effect on the performance of the driving model. Hope you can find a strong attack!
+**Congratulations**, now open the simulator and python server, you should see the outcome of the new attack on the website http://localhost:3333/. The one-pixel attack demonstrates how to add a new attack, but it has negligible effect on the performance of the driving model. Hope you can find a strong attack!
 
 
 
