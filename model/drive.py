@@ -90,9 +90,9 @@ def telemetry(sid, data):
             if adv_drv.activate:
                 perturb = adv_drv.attack(image)
 
-                if adv_drv.attack_type == "uni_no_left_train" or adv_drv.attack_type == "uni_no_right_train":
+                if adv_drv.attack_type == "unir_no_left_train" or adv_drv.attack_type == "unir_no_right_train":
                     if(len(adv_drv.perturbs) > 0 and len(adv_drv.perturb_percents) > 0):
-                        sio.emit('uni_train', { 'absolute': str(adv_drv.perturbs[-1]), 'percentage': str(adv_drv.perturb_percents[-1])})
+                        sio.emit('unir_train', { 'absolute': str(adv_drv.perturbs[-1]), 'percentage': str(adv_drv.perturb_percents[-1])})
                         # print("Attack Strength: ", float(perturb / n_attack), " Attack Percent: ", perturb_percent * 100 / n_attack, "%")
                     image = np.array([image])
                 else:
@@ -173,13 +173,13 @@ if __name__ == '__main__':
     # Initialize Adversarial Driving
     adv_drv = AdversarialDriving(model)
 
-    if(os.path.isfile("uni_no_left.pickle")):
-        with open('uni_no_left.pickle', 'rb') as f:
-            adv_drv.set_uni_no_left(pickle.load(f))
+    if(os.path.isfile("unir_no_left.pickle")):
+        with open('unir_no_left.pickle', 'rb') as f:
+            adv_drv.set_unir_no_left(pickle.load(f))
     
-    if(os.path.isfile("uni_no_right.pickle")):
-        with open('uni_no_right.pickle', 'rb') as f:
-            adv_drv.set_uni_no_right(pickle.load(f))
+    if(os.path.isfile("unir_no_right.pickle")):
+        with open('unir_no_right.pickle', 'rb') as f:
+            adv_drv.set_unir_no_right(pickle.load(f))
 
     if args.image_folder != '':
         print("Creating image folder at {}".format(args.image_folder))

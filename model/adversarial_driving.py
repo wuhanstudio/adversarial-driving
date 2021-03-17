@@ -13,7 +13,7 @@ class AdversarialDriving:
 
         # Initialize FGSM Attack
         # Get the loss and gradient of the loss wrt the inputs
-        self.attack_type = "fgsm_left"
+        self.attack_type = "fgsmr_left"
         self.activate = False
         self.epsilon = 1
         self.loss = K.mean(-self.model.output, axis=-1)
@@ -30,8 +30,8 @@ class AdversarialDriving:
         self.perturb_percents = []
         self.n_attack = 1
 
-        self.uni_no_left = np.zeros((1, 160, 320, 3))
-        self.uni_no_right = np.zeros((1, 160, 320, 3))
+        self.unir_no_left = np.zeros((1, 160, 320, 3))
+        self.unir_no_right = np.zeros((1, 160, 320, 3))
 
         self.result = {}
 
@@ -56,9 +56,9 @@ class AdversarialDriving:
 
             # Initialize FGSM Attack
             # Get the loss and gradient of the loss wrt the inputs
-            if(attack_type == "fgsm_left" or attack_type == "uni_no_right" or attack_type == "uni_no_right_train"):        
+            if(attack_type == "fgsmr_left" or attack_type == "unir_no_right" or attack_type == "unir_no_right_train"):
                 self.loss = -self.model.output
-            if(attack_type == "fgsm_right" or attack_type == "uni_no_left" or attack_type == "uni_no_left_train"):        
+            if(attack_type == "fgsmr_right" or attack_type == "unir_no_left" or attack_type == "unir_no_left_train"):
                 self.loss = self.model.output
 
             self.grads = K.gradients(self.loss, self.model.input)
@@ -66,18 +66,18 @@ class AdversarialDriving:
             self.delta = K.sign(self.grads[0])
 
             # Save Universal Adversarial Perturbation
-            if(attack_type == "uni_no_left_train"):
-                pickle.dump(self.uni_no_left, open( "uni_no_left.pickle", "wb" ) )
-            if(attack_type == "uni_no_right_train"):
-                pickle.dump(self.uni_no_right, open( "uni_no_right.pickle", "wb" ) )
+            if(attack_type == "unir_no_left_train"):
+                pickle.dump(self.unir_no_left, open( "unir_no_left.pickle", "wb" ) )
+            if(attack_type == "unir_no_right_train"):
+                pickle.dump(self.unir_no_right, open( "unir_no_right.pickle", "wb" ) )
 
             print("Initialized", attack_type)
 
-    def set_uni_no_left(self, uni_no_left):
-        self.uni_no_left = uni_no_left
+    def set_unir_no_left(self, unir_no_left):
+        self.unir_no_left = unir_no_left
 
-    def set_uni_no_right(self, uni_no_right):
-        self.uni_no_right = uni_no_right
+    def set_unir_no_right(self, unir_no_right):
+        self.unir_no_right = unir_no_right
 
     # Deep Fool: Project on the lp ball centered at 0 and of radius xi
     def proj_lp(self, v, xi=10, p=2):
@@ -102,29 +102,29 @@ class AdversarialDriving:
             return noise
 
         # Apply FGSM Attack
-        if self.attack_type.startswith("fgsm_"):
+        if self.attack_type.startswith("fgsmr_"):
             # Perturb the image
             noise = self.epsilon * self.sess.run(self.delta, feed_dict={self.model.input:np.array([input])})
             return noise.reshape(160, 320, 3)
 
         # Apply Universal Adversarial Perturbation
-        if self.attack_type == "uni_no_left":
-            return self.uni_no_left.reshape(160, 320, 3)
+        if self.attack_type == "unir_no_left":
+            return self.unir_no_left.reshape(160, 320, 3)
 
-        if self.attack_type == "uni_no_right":
-            return self.uni_no_right.reshape(160, 320, 3)
+        if self.attack_type == "unir_no_right":
+            return self.unir_no_right.reshape(160, 320, 3)
 
         # Train Universal Perturbation
-        if self.attack_type == "uni_no_left_train" or self.attack_type == "uni_no_right_train":
+        if self.attack_type == "unir_no_left_train" or self.attack_type == "unir_no_right_train":
 
             image = np.array([input])
             y_true = float(self.model.predict(image, batch_size=1))
 
             target_sign = 0
 
-            if self.attack_type == "uni_no_left_train":
+            if self.attack_type == "unir_no_left_train":
                 target_sign = 1
-            if self.attack_type == "uni_no_right_train":
+            if self.attack_type == "unir_no_right_train":
                 target_sign = -1    
             if (np.sign(y_true) != target_sign):
                 x_adv = image
@@ -141,19 +141,19 @@ class AdversarialDriving:
                     y_h = self.model.predict(x_adv, batch_size=1)
                     # print("After DeepFool: ", y_true, " --> ", y_h)
 
-                if self.attack_type == "uni_no_left_train":
-                    self.uni_no_left = self.uni_no_left + (x_adv - image)
+                if self.attack_type == "unir_no_left_train":
+                    self.unir_no_left = self.unir_no_left + (x_adv - image)
                     # Project on l_p ball
-                    self.uni_no_left = self.proj_lp(self.uni_no_left)
+                    self.unir_no_left = self.proj_lp(self.unir_no_left)
 
-                    y_uni = self.model.predict(image + self.uni_no_left, batch_size=1)
+                    y_uni = self.model.predict(image + self.unir_no_left, batch_size=1)
 
-                if self.attack_type == "uni_no_right_train":
-                    self.uni_no_right = self.uni_no_right + (x_adv - image)
+                if self.attack_type == "unir_no_right_train":
+                    self.unir_no_right = self.unir_no_right + (x_adv - image)
                     # Project on l_p ball
-                    self.uni_no_right = self.proj_lp(self.uni_no_right)
+                    self.unir_no_right = self.proj_lp(self.unir_no_right)
 
-                    y_uni = self.model.predict(image + self.uni_no_right, batch_size=1)
+                    y_uni = self.model.predict(image + self.unir_no_right, batch_size=1)
 
                 # print("After Universal: ", y_true, " --> ", y_uni)
                 self.perturb = self.perturb + (y_uni - y_true)

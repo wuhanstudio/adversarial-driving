@@ -42,7 +42,7 @@ socket.on('adv', function (data) {
 });
 
 // Receive Training result for UAPr
-socket.on('uni_train', function (data) {
+socket.on('unir_train', function (data) {
     $("#train_res").text("Train: " + parseFloat(data.absolute).toFixed(2) + ' ' + parseFloat(data.percentage).toFixed(2) + "%");
 });
 
@@ -147,7 +147,7 @@ $(document).ready(function () {
     // Select different attacks
     $("input[name=flexRadioDefault]").change(function () {
         attack(0, this.value);
-        if (this.value === "uni_no_left" || this.value === "uni_no_right") {
+        if (this.value === "unir_no_left" || this.value === "unir_no_right") {
             $('#uni_train_btn').show();
         }
         else {
