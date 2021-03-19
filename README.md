@@ -11,6 +11,8 @@ https://arxiv.org/abs/2103.09151
     + [2. Setup the server](#2-setup-the-server)
     + [3. Setup the browser](#3-setup-the-browser)
   * [How to add your own attack](#how-to-add-your-own-attack)
+    + [Add the attack on the UI](#add-the-attack-on-the-ui)
+    + [Implement the attack](#implement-the-attack)
   * [Training the model](#training-the-model)
   * [Resources](#resources)
 
@@ -77,6 +79,8 @@ That's it!
 
 The system is scalable to include more attacks for further research. For example, if you would like to add an attack that increases each pixel by one. (one-pixel-attack)
 
+#### Add the attack on the UI
+
 **First**, you can add the attack option [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/client/web/index.html#L67) inside **client/web/index.html** by changing the `<input id="" value="one_pixel">` and `<label for="">`:
 
 ```html
@@ -93,6 +97,8 @@ Then you can find a new option on the website :
 (Remember to recompile client.exe using `packr build` if you use the built-in server):
 
 ![](doc/one-pixel-web.png)
+
+#### Implement the attack
 
 **Second and last**, you can implement your attack [here](https://github.com/wuhanstudio/adversarial-driving/blob/a2841da0536bdc45e257250a3f63c6c096174985/model/adversarial_driving.py#L96) in `model/adversarial_driving.py`.
 
