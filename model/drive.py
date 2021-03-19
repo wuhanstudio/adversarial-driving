@@ -96,20 +96,24 @@ def telemetry(sid, data):
                         # print("Attack Strength: ", float(perturb / n_attack), " Attack Percent: ", perturb_percent * 100 / n_attack, "%")
                     image = np.array([image])
                 else:
-                    x_adv = np.array(image) + perturb
-                    sio.emit('adv', {'data': img2base64(x_adv)})
-                    sio.emit('diff', {'data': img2base64(perturb)})
+                    if perturb is not None:
+                        x_adv = np.array(image) + perturb
+                        sio.emit('adv', {'data': img2base64(x_adv)})
+                        sio.emit('diff', {'data': img2base64(perturb)})
 
-                    image = np.array([x_adv])
-                    y_adv = float(model.predict(image, batch_size=1))
-                    sio.emit('res', {'original': str(float(y_true)), 'result': str(float(y_adv)),  'percentage': str(float(((y_true-y_adv) * 100 / np.abs(y_true)))) })
+                        image = np.array([x_adv])
+                        y_adv = float(model.predict(image, batch_size=1))
+                        sio.emit('res', {'original': str(float(y_true)), 'result': str(float(y_adv)),  'percentage': str(float(((y_true-y_adv) * 100 / np.abs(y_true)))) })
 
-                    if adv_drv.attack_type not in adv_drv.result:
-                        adv_drv.result[adv_drv.attack_type] = []
-                    if(len(adv_drv.result[adv_drv.attack_type]) > 0 and len(adv_drv.result[adv_drv.attack_type]) % 100 == 0):
-                        print(adv_drv.attack_type, len(adv_drv.result[adv_drv.attack_type]), np.mean(adv_drv.result[adv_drv.attack_type], axis=0))
-                        sio.emit('info', {'type': str(adv_drv.attack_type), 'times': str(len(adv_drv.result[adv_drv.attack_type])), 'res': str(np.mean(adv_drv.result[adv_drv.attack_type], axis=0))})
-                    adv_drv.result[adv_drv.attack_type].append([float(np.abs(y_adv-y_true)), float((np.abs(y_true-y_adv) * 100 / np.abs(y_true)))])
+                        if adv_drv.attack_type not in adv_drv.result:
+                            adv_drv.result[adv_drv.attack_type] = []
+                        if(len(adv_drv.result[adv_drv.attack_type]) > 0 and len(adv_drv.result[adv_drv.attack_type]) % 100 == 0):
+                            print(adv_drv.attack_type, len(adv_drv.result[adv_drv.attack_type]), np.mean(adv_drv.result[adv_drv.attack_type], axis=0))
+                            sio.emit('info', {'type': str(adv_drv.attack_type), 'times': str(len(adv_drv.result[adv_drv.attack_type])), 'res': str(np.mean(adv_drv.result[adv_drv.attack_type], axis=0))})
+                        adv_drv.result[adv_drv.attack_type].append([float(np.abs(y_adv-y_true)), float((np.abs(y_true-y_adv) * 100 / np.abs(y_true)))])
+                    else:
+                        print("The attack method returns None")
+                        image = np.array([image])       # the model expects 4D array
             else:
                 image = np.array([image])       # the model expects 4D array
 
