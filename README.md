@@ -20,7 +20,7 @@ https://arxiv.org/abs/2103.09151
 
 **Adversarial Driving**: The behaviour of end-to-end autonomous driving model can be manipulated by adding unperceivable perturbations to the input image.
 
-<a href="https://youtu.be/yxczj4zhR1A"><img src="./doc/video.png" /></a>
+<a href="https://youtu.be/DOdaiGxgHEs"><img src="./doc/video.png" /></a>
 
 ![](./doc/adversarial-driving.png)
 
