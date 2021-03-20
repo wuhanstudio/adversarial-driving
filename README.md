@@ -151,3 +151,15 @@ This will generate a file `model-<epoch>.h5` whenever the performance in the epo
 - Behavior Cloning: https://github.com/naokishibuya/car-behavioral-cloning
 
 - Youtube: https://github.com/llSourcell/How_to_simulate_a_self_driving_car
+
+
+```
+@misc{wu2021adversarial,
+      title={Adversarial Driving: Attacking End-to-End Autonomous Driving Systems}, 
+      author={Han Wu and Wenjie Ruan},
+      year={2021},
+      eprint={2103.09151},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
