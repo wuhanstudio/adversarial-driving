@@ -156,7 +156,7 @@ This will generate a file `model-<epoch>.h5` whenever the performance in the epo
 ```
 @misc{wu2021adversarial,
       title={Adversarial Driving: Attacking End-to-End Autonomous Driving Systems}, 
-      author={Han Wu and Wenjie Ruan},
+      author={Han Wu, Syed Yunas and Wenjie Ruan},
       year={2021},
       eprint={2103.09151},
       archivePrefix={arXiv},
