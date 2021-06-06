@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - python=3.8.0
+  - pip
   - pip:
     - eventlet==0.29.1
     - flask==1.1.2
