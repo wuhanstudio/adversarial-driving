@@ -61,6 +61,7 @@ For Linux and Mac, or other Unix, the server can be built with:
 
 ```
 go get -u github.com/gobuffalo/packr/packr
+go get github.com/gobuffalo/packr@v1.30.1
 packr build
 ```
 
