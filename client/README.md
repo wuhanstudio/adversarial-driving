@@ -7,7 +7,7 @@ If you use windows, click on **client/client.exe**. It's a single executable tha
 For Linux and Mac, or other Unix, the server can be built with:
 
 ```
-go get github.com/gobuffalo/packr
+go get -u github.com/gobuffalo/packr/packr
 packr build
 ```
 
