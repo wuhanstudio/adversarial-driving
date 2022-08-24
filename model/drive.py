@@ -27,6 +27,12 @@ from keras.models import load_model
 
 from adversarial_driving import AdversarialDriving
 
+from logger import TensorBoardLogger
+
+# Tensorboard
+log_dir = 'logs/image-specific/online/' + datetime.now().strftime("%Y%m%d-%H%M%S")
+tb = TensorBoardLogger(log_dir)
+
 # Initialize the server
 sio = socketio.Server(cors_allowed_origins='*')
 
@@ -35,15 +41,18 @@ app = Flask(__name__)
 CORS(app)
 
 # Set min/max speed for our autonomous car
-MAX_SPEED = 25
+MAX_SPEED = 20
 MIN_SPEED = 10
+
+EPSILON = 1
+
+APPLY_ATTACK = True
 
 # Speed limit
 speed_limit = MAX_SPEED
 
 # From image to base64 string
 def img2base64(image):
-
     origin_img = Image.fromarray(np.uint8(image))
     origin_buff = BytesIO()
     origin_img.save(origin_buff, format="JPEG")
@@ -84,41 +93,55 @@ def telemetry(sid, data):
 
             sio.emit('input', {'data': img2base64(image)})
 
-            y_true = model.predict(np.array([image]), batch_size=1)
+            y_true = model.predict(np.array([image]), batch_size = 1)
 
             # If the attack is activated
             if adv_drv.activate:
                 perturb = adv_drv.attack(image)
 
-                if adv_drv.attack_type == "unir_no_left_train" or adv_drv.attack_type == "unir_no_right_train":
+                if adv_drv.attack_type == "image_agnostic_right_train" or adv_drv.attack_type == "image_agnostic_left_train":
                     if(len(adv_drv.perturbs) > 0 and len(adv_drv.perturb_percents) > 0):
                         sio.emit('unir_train', { 'absolute': str(adv_drv.perturbs[-1]), 'percentage': str(adv_drv.perturb_percents[-1])})
+                        tb.log_scalar('y_uni', float(adv_drv.perturbs[-1]), telemetry.count)
+
                         # print("Attack Strength: ", float(perturb / n_attack), " Attack Percent: ", perturb_percent * 100 / n_attack, "%")
                     image = np.array([image])
+
+                    telemetry.count = telemetry.count + 1
                 else:
                     if perturb is not None:
                         x_adv = np.array(image) + perturb
                         sio.emit('adv', {'data': img2base64(x_adv)})
                         sio.emit('diff', {'data': img2base64(perturb)})
 
-                        image = np.array([x_adv])
-                        y_adv = float(model.predict(image, batch_size=1))
+                        y_adv = float(model.predict(np.array([x_adv]), batch_size=1))
+
+                        # Log to the Web UI
                         sio.emit('res', {'original': str(float(y_true)), 'result': str(float(y_adv)),  'percentage': str(float(((y_true-y_adv) * 100 / np.abs(y_true)))) })
 
-                        if adv_drv.attack_type not in adv_drv.result:
-                            adv_drv.result[adv_drv.attack_type] = []
-                        if(len(adv_drv.result[adv_drv.attack_type]) > 0 and len(adv_drv.result[adv_drv.attack_type]) % 100 == 0):
-                            print(adv_drv.attack_type, len(adv_drv.result[adv_drv.attack_type]), np.mean(adv_drv.result[adv_drv.attack_type], axis=0))
-                            sio.emit('info', {'type': str(adv_drv.attack_type), 'times': str(len(adv_drv.result[adv_drv.attack_type])), 'res': str(np.mean(adv_drv.result[adv_drv.attack_type], axis=0))})
-                        adv_drv.result[adv_drv.attack_type].append([float(np.abs(y_adv-y_true)), float((np.abs(y_true-y_adv) * 100 / np.abs(y_true)))])
+                        # Log to TensorBoard
+                        tb.log_scalar('y_true', float(y_true), telemetry.count)
+                        tb.log_scalar('y_adv', float(y_adv), telemetry.count)
+                        tb.log_scalar('y_diff', float(y_adv-y_true), telemetry.count)
+
+                        if APPLY_ATTACK:
+                            # Apply the adversarial image
+                            image = np.array([x_adv])
+                        else:
+                            # Apply the original input image
+                            image = np.array([image])
+
                     else:
                         print("The attack method returns None")
                         image = np.array([image])       # the model expects 4D array
+
+                # Update the log count
+                telemetry.count = telemetry.count + 1
             else:
-                image = np.array([image])       # the model expects 4D array
+                image = np.array([image])               # the model expects 4D array
 
             # predict the steering angle for the image
-            steering_angle = float(model.predict(image, batch_size=1))
+            steering_angle = float(model.predict(image, batch_size = 1))
             # lower the throttle as the speed perturbreases
             # if the speed is above the current speed limit, we are on a downhill.
             # make sure we slow down first and then go back to the original max speed.
@@ -139,6 +162,7 @@ def telemetry(sid, data):
             timestamp = datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S_%f')[:-3]
             image_filename = os.path.join(args.image_folder, timestamp)
             image.save('{}.jpg'.format(image_filename))
+
     else:
         sio.emit('manual', data={}, skip_sid=True)
 
@@ -171,19 +195,22 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
+    telemetry.count = 0
+
     # Load model
     model = load_model(args.model)
+    model.summary()
 
     # Initialize Adversarial Driving
-    adv_drv = AdversarialDriving(model)
+    adv_drv = AdversarialDriving(model, epsilon = EPSILON)
 
-    if(os.path.isfile("unir_no_left.pickle")):
-        with open('unir_no_left.pickle', 'rb') as f:
-            adv_drv.set_unir_no_left(pickle.load(f))
+    if(os.path.isfile("image_agnostic_right.pickle")):
+        with open('image_agnostic_right.pickle', 'rb') as f:
+            adv_drv.set_image_agnostic_right(pickle.load(f))
     
-    if(os.path.isfile("unir_no_right.pickle")):
-        with open('unir_no_right.pickle', 'rb') as f:
-            adv_drv.set_unir_no_right(pickle.load(f))
+    if(os.path.isfile("image_agnostic_left.pickle")):
+        with open('image_agnostic_left.pickle', 'rb') as f:
+            adv_drv.set_image_agnostic_left(pickle.load(f))
 
     if args.image_folder != '':
         print("Creating image folder at {}".format(args.image_folder))

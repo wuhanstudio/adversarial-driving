@@ -41,7 +41,7 @@ socket.on('adv', function (data) {
     $('#adv').attr("src", "data:image/png;base64," + data.data);
 });
 
-// Receive Training result for UAPr
+// Receive Training result for UAP (Image Agnostic)
 socket.on('unir_train', function (data) {
     $("#train_res").text("Train: " + parseFloat(data.absolute).toFixed(2) + ' ' + parseFloat(data.percentage).toFixed(2) + "%");
 });
@@ -147,7 +147,7 @@ $(document).ready(function () {
     // Select different attacks
     $("input[name=flexRadioDefault]").change(function () {
         attack(0, this.value);
-        if (this.value === "unir_no_left" || this.value === "unir_no_right") {
+        if (this.value === "image_agnostic_right" || this.value === "image_agnostic_left") {
             $('#uni_train_btn').show();
         }
         else {
