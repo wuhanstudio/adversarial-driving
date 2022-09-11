@@ -10,7 +10,7 @@ import socketio
 import eventlet
 import eventlet.wsgi
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 
 # Image Processing
@@ -59,6 +59,16 @@ def img2base64(image):
 
     return base64.b64encode(origin_buff.getvalue()).decode("utf-8")
 
+root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
+
+# Static website
+@app.route('/<path:path>', methods=['GET'])
+def static_proxy(path):
+    return send_from_directory(root, path)
+
+@app.route('/', methods=['GET'])
+def redirect_to_index():
+    return send_from_directory(root, 'index.html')
 
 @sio.on('connect')
 def connect(sid, environ):

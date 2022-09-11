@@ -7,7 +7,7 @@ dependencies:
   - pip
   - pip:
     - eventlet==0.29.1
-    - flask==1.1.2
+    - flask==2.1.0
     - flask-cors==3.0.9
     - flask-socketio==4.3.1
     - future==0.18.2

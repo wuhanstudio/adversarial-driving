@@ -1,11 +1,14 @@
-####  1. Setup the  simulator
+####  The simulator
 
 This simulator was built for Udacity's Self-Driving Car Nanodegree, and it's available [here](https://github.com/udacity/self-driving-car-sim).
 
-- Windows: please download **term1-simulator-windows.zip**, and open **beta_simulator.exe**.
+Instruction: Download the zip file, extract it and run the executable file.
 
-- Linux: please download **term1-simulator-linux.zip**, and open **beta_simulator.x86_64**.
+Version 1, 12/09/16
 
-- Mac: please download **term1-simulator-mac.zip**, and install **beta_simulator_mac.app**.
+[Linux](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f0f7_simulator-linux/simulator-linux.zip)
+[Mac](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f290_simulator-macos/simulator-macos.zip)
+[Windows 32](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f4b6_simulator-windows-32/simulator-windows-32.zip)
+[Windows 64](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f3a4_simulator-windows-64/simulator-windows-64.zip)
 
 <img src="../doc/simulator.png"  width="50%"/>
