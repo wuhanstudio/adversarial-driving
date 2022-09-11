@@ -40,6 +40,16 @@ The web page is available at: http://localhost:9090/
 
 <!-- <a href="https://youtu.be/DOdaiGxgHEs"><img src="./doc/video.png" /></a> -->
 
+## Adversarial ROS Driving
+
+We also tested our attacks in ROS Gazebo simulator. 
+
+https://github.com/wuhanstudio/adversarial-ros-driving
+
+[![](https://raw.githubusercontent.com/wuhanstudio/adversarial-ros-driving/master/doc/adversarial-ros-driving.png)](https://github.com/wuhanstudio/adversarial-ros-driving)
+
+## Citation
+
 ```
 @misc{han2021driving,
   doi = {10.48550/ARXIV.2103.09151},
