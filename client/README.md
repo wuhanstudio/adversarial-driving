@@ -1,4 +1,4 @@
-#### 3. Setup the browser
+#### The client
 
 This is just a website, your can use any web server, just serve all the content under **client/web**.
 
@@ -7,12 +7,12 @@ If you use windows, click on **client/client.exe**. It's a single executable tha
 For Linux and Mac, or other Unix, the server can be built with:
 
 ```
-go get -u github.com/gobuffalo/packr/packr
-go get github.com/gobuffalo/packr@v1.30.1
-packr build
+$ cd adversarial-driving/model
+$ go install github.com/gobuffalo/packr/v2@v2.8.3
+$ go build
+$ ./client
 ```
 
-
-The web page will be available at: http://localhost:3333/
+The web page is available at: http://localhost:3333/
 
 <img src="../doc/client.png"  width="100%"/>
