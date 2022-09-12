@@ -41,7 +41,20 @@ Version 1, 12/09/16
 [Windows 32](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f4b6_simulator-windows-32/simulator-windows-32.zip)
 [Windows 64](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f3a4_simulator-windows-64/simulator-windows-64.zip)
 
-The web page is available at: http://localhost:4567/
+
+Your can use any web server, just serve all the content under **client/web**.
+
+If you use windows, click on **client/client.exe**. It's a single executable that packages everything.
+
+For Linux and Mac, or other Unix, the server can be built with:
+
+```
+$ go install github.com/gobuffalo/packr/v2@v2.8.3
+$ go build
+$ ./client
+```
+
+The web page is available at: http://localhost:3333/
 
 <!-- <a href="https://youtu.be/DOdaiGxgHEs"><img src="./doc/video.png" /></a> -->
 
