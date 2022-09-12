@@ -6,7 +6,7 @@
 
 The behaviour of end-to-end autonomous driving model can be manipulated by adding unperceivable perturbations to the input image.
 
-![](./doc/adversarial-driving.png)
+[![](./doc/adversarial-driving.png)](https://driving.wuhanstudio.uk)
 
 ### Quick Start
 
@@ -49,6 +49,7 @@ If you use windows, click on **client/client.exe**. It's a single executable tha
 For Linux and Mac, or other Unix, the server can be built with:
 
 ```
+$ cd adversarial-driving/model
 $ go install github.com/gobuffalo/packr/v2@v2.8.3
 $ go build
 $ ./client
