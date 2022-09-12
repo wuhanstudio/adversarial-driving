@@ -29,6 +29,11 @@ $ python drive.py model.h5
 
 This simulator was built for Udacity's Self-Driving Car Nanodegree, and it's available [here](https://github.com/udacity/self-driving-car-sim) (Download the zip file, extract it and run the executable file).
 
+```
+$ cd adversarial-driving/simulator/
+$ ./Default\ Linux\ desktop\ Universal.x86_64
+```
+
 Version 1, 12/09/16
 
 [Linux](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f0f7_simulator-linux/simulator-linux.zip)
