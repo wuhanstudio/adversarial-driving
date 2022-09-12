@@ -41,7 +41,7 @@ Version 1, 12/09/16
 [Windows 32](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f4b6_simulator-windows-32/simulator-windows-32.zip)
 [Windows 64](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f3a4_simulator-windows-64/simulator-windows-64.zip)
 
-The web page is available at: http://localhost:9090/
+The web page is available at: http://localhost:4567/
 
 <!-- <a href="https://youtu.be/DOdaiGxgHEs"><img src="./doc/video.png" /></a> -->
 
