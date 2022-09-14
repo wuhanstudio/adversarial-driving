@@ -49,7 +49,7 @@ If you use windows, click on **client/client.exe**. It's a single executable tha
 For Linux and Mac, or other Unix, the server can be built with:
 
 ```
-$ cd adversarial-driving/model
+$ cd adversarial-driving/client
 $ go install github.com/gobuffalo/packr/v2@v2.8.3
 $ go build
 $ ./client
