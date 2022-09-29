@@ -76,6 +76,6 @@ https://github.com/wuhanstudio/adversarial-ros-driving
   author = {Wu, Han and Yunas, Syed and Rowlands, Sareh and Ruan, Wenjie and Wahlstrom, Johan},
   title = {Adversarial Driving: Attacking End-to-End Autonomous Driving},
   publisher = {arXiv},
-  year = {2021},
+  year = {2021}
 }
 ```
