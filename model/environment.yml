@@ -16,7 +16,7 @@ dependencies:
     - keras==2.4.3
     - keras-preprocessing==1.1.2
     - matplotlib==3.3.3
-    - numpy==1.19.4
+    - numpy
     - opencv-python==4.4.0.46
     - pandas==1.1.4
     - pillow==8.0.1
