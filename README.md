@@ -70,12 +70,14 @@ https://github.com/wuhanstudio/adversarial-ros-driving
 ## Citation
 
 ```
-@misc{han2021driving,
-  doi = {10.48550/ARXIV.2103.09151},
-  url = {https://arxiv.org/abs/2103.09151},
-  author = {Wu, Han and Yunas, Syed and Rowlands, Sareh and Ruan, Wenjie and Wahlstrom, Johan},
-  title = {Adversarial Driving: Attacking End-to-End Autonomous Driving},
-  publisher = {arXiv},
-  year = {2021}
+@INPROCEEDINGS{han2023,
+  author={Wu, Han and Yunas, Syed and Rowlands, Sareh and Ruan, Wenjie and Wahlström, Johan},
+  booktitle={2023 IEEE Intelligent Vehicles Symposium (IV)}, 
+  title={Adversarial Driving: Attacking End-to-End Autonomous Driving}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-7},
+  doi={10.1109/IV55152.2023.10186386}
 }
 ```
