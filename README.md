@@ -10,12 +10,21 @@ The behaviour of end-to-end autonomous driving model can be manipulated by addin
 
 ### Quick Start
 
-You may use [anaconda](https://www.continuum.io/downloads) or [miniconda](https://conda.io/miniconda.html). 
-
-```python
+It's recommended to use `uv` to set up the python virtual environment:
+```
 $ git clone https://github.com/wuhanstudio/adversarial-driving
 $ cd adversarial-driving/model
+```
 
+Create the virtual environment:
+
+```
+uv sync
+```
+
+You may also use [anaconda](https://www.continuum.io/downloads) or [miniconda](https://conda.io/miniconda.html). 
+
+```bash
 $ # CPU
 $ conda env create -f environment.yml
 $ conda activate adversarial-driving
